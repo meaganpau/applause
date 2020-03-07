@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <ul>
+        {% for kudos in object_list %}
+            <li>
+                <div>
+                    <p>To: {{ kudos.receiver.get_full_name }}</p>
+                    <p>From: {{ kudos.sender.get_full_name }}</p>
+                    <p>Kudos: {{ kudos.message }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

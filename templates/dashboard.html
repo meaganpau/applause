@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>{{ request.user.get_short_name }}'s Dashboard</h1>
+    <p>Latest Kudos:</p>
+    <ul>
+        {% for kudos in latest_kudos %}
+            <li>
+                <div>
+                    <p>To: {{ kudos.receiver }}</p>
+                    <p>From: {{ kudos.sender }}</p>
+                    <p>Kudos: {{ kudos.message }}</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'kudos:kudos-list' %}">See all</a>
+{% endblock content %}

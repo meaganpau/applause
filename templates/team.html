@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="container">
+        <ul>
+        {% for user in user_profiles %}
+            <p>{{ user.user_id }}<p>
+            <h1>{{ user.user.first_name }} {{ user.user.last_name }}</h1>
+            {% if user.profile_pic %}
+                <img src="/media/{{ user.profile_pic }}" /> 
+            {% endif%}
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

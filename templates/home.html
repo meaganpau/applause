@@ -1,0 +1,7 @@
+{% extends 'home/base.html' %}
+{% block content %}
+    <h1>Welcome to Applause!</h1>
+    <a href="{% url 'register' %}">Register</a>
+    <p>or</p>
+    <a href="{% url 'login' %}">Login</a>
+{% endblock content %}
