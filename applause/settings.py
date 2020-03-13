@@ -128,3 +128,6 @@ STATICFILES_DIRS = [STATIC_DIR,]
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 LOGIN_URL = '/login/'
+
+AUTH_USER_MODEL = 'users.User'
+AUTH_PROFILE_MODULE = 'users.UserProfile'

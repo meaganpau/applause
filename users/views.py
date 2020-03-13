@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .forms import UserForm, UserProfileForm, UserUpdateForm
+from .forms import UserForm, UserProfileForm
 from .models import User, UserProfile
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -19,9 +19,9 @@ def user_logout(request):
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('email')
         password = request.POST.get('password')
-        user = authenticate(username = username, password = password)
+        user = authenticate(email = email, password = password)
         if user:
             if user.is_active:
                 login(request, user)
@@ -30,7 +30,7 @@ def user_login(request):
                 return HttpResponse("Your account was inactive.")
         else:
             print("Someone tried to login and failed.")
-            print("They used username: {} and password: {}".format(username,password))
+            print("They used email: {} and password: {}".format(email,password))
             return HttpResponse("Invalid login details given")
     else:
         if request.user.is_authenticated:
@@ -53,7 +53,7 @@ def register(request):
             profile.save()
             return HttpResponseRedirect(reverse('dashboard'))
         else:
-            print(user_form.errors,profile_form.errors)
+            print(user_form.errors, profile_form.errors)
     else:
         user_form = UserForm
         profile_form = UserProfileForm()
@@ -68,27 +68,21 @@ def user_profile(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             profile_form_instance = UserProfile.objects.get(user=request.user)
-            user_form = UserUpdateForm(data = request.POST, instance=request.user)
             profile_form = UserProfileForm(request.POST, request.FILES, instance=profile_form_instance)
-            if user_form.is_valid() and profile_form.is_valid():
-                user = user_form.save()
-                user.save(update_fields=['first_name', 'last_name', 'email'])
+            if profile_form.is_valid():
                 profile = profile_form.save(commit=False)
                 profile.user = request.user
                 if 'profile_pic' in request.FILES:
                     profile.profile_pic = request.FILES['profile_pic']
                 profile.save()
-                # profile.save()
                 return HttpResponseRedirect(reverse('profile'))
             else:
-                print(user_form.errors,profile_form.errors)
+                print(profile_form.errors)
         elif request.method == 'GET':
-            obj = User.objects.get(username=request.user)
-            user_form = UserUpdateForm(None, instance=obj)
+            obj = UserProfile.objects.get(user=request.user)
             profile_form = UserProfileForm(None, instance=obj)
             profile_picture = UserProfile.objects.get(user_id=request.user.id)
             context = {
-                'user_form': user_form,
                 'profile_form': profile_form,
                 'profile_picture': profile_picture
             }

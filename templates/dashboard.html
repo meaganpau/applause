@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{{ request.user.get_short_name }}'s Dashboard</h1>
+    <h1>{{ user_profile.first_name }}'s Dashboard</h1>
     <p>Latest Kudos:</p>
     <ul>
         {% for kudos in latest_kudos %}
             <li>
                 <div>
-                    <p>To: {{ kudos.receiver }}</p>
-                    <p>From: {{ kudos.sender }}</p>
+                    <p>Date: {{ kudos.created_date }}</p>
+                    <p>To: {{ kudos.receiver.userprofile }}</p>
+                    <p>From: {{ kudos.sender.userprofile }}</p>
                     <p>Kudos: {{ kudos.message }}</p>
                 </div>
             </li>

@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
+    <h1>All Kudos</h1>
     <ul>
         {% for kudos in object_list %}
             <li>
                 <div>
-                    <p>To: {{ kudos.receiver.get_full_name }}</p>
-                    <p>From: {{ kudos.sender.get_full_name }}</p>
+                    <p>Date: {{ kudos.created_date }}</p>
+                    <p>To: {{ kudos.receiver.userprofile }}</p>
+                    <p>From: {{ kudos.sender.userprofile }}</p>
                     <p>Kudos: {{ kudos.message }}</p>
                 </div>
             </li>
